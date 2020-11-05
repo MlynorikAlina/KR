@@ -1,2 +1,3 @@
 0 name 01.01.1901 complex 100 usd
-1 oleg 01.02.2001 health 200 rub 
+1 oleg 01.02.2001 health 200 rub
+1 oleg 01.02.2020 health 200 rub
