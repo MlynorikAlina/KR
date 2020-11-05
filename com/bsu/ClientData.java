@@ -47,7 +47,16 @@ public class ClientData {
         return dateOfContractConclusion;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public String getTypeOfInsurance() {
+        return typeOfInsurance;
+    }
+
     public int getSum() {
         return sum;
     }
 }
+

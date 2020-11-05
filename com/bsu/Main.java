@@ -71,13 +71,20 @@ public class Main {
                     Request.showAll(clientHashMap);
                     break;
                 case 4:
-                    System.out.println("Enter cliend id:");
+                    System.out.println("Enter client id:");
                     Integer id= scanner.nextInt();
                     if(currentUser == null)throw new CustomException("Unauthorised user");
                     System.out.println(Request.getClient(clientHashMap,currentUser,id));
                     break;
                 case 5:
                     Request.statistics(clientHashMap);
+                    break;
+                case 6:
+                    System.out.println("Enter n(top-n), currency:");
+                    requestData = scanner.nextLine();
+                    String[] data = requestData.split(" ");
+                    if (data.length != 2) throw new InvalidFormatException("Invalid number of arguments");
+                    Request.getTop(clientHashMap,Integer.parseInt(data[0]),data[1]);
                     break;
                 default:
                     return;

@@ -61,14 +61,21 @@ public class Client {
                 '}';
     }
     public String getStatisticsFrom(Date startDate) {
-        String res = name + ":\n";
-        int sum=0;
+        StringBuilder res = new StringBuilder(name + ": ");
+        double sum=0;
         List<ClientData> founded = clientDataList.stream().filter(data -> data.getDateOfContractConclusion().compareTo(startDate) >= 0).collect(Collectors.toList());
         for(ClientData d : founded){
-            sum +=d.getSum();
-            res = res + d.toString() + "\n";
+            sum +=Currency.toUSD(d.getCurrency(),d.getSum());
+            res.append(d.getTypeOfInsurance()).append(", ");
         }
-        res += "Summary = " + sum;
-        return res;
+        res.append("\nSummary(in USD) = ").append(sum);
+        return res.toString();
+    }
+    public double sumBillsInCur(String cur){
+        double sum=0;
+        for(ClientData d : clientDataList){
+            if(cur.equalsIgnoreCase(d.getCurrency())) sum +=d.getSum();
+        }
+        return  sum;
     }
 }
