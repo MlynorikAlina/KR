@@ -22,17 +22,18 @@ public class Client {
             else {
                 name = args[1];
                 clientDataList = new ArrayList<>();
-                clientDataList.add(new ClientData(format.parse(args[2]),args[3],Integer.parseInt(args[4]),args[5]));
+                clientDataList.add(new ClientData(format.parse(args[2]), args[3], Integer.parseInt(args[4]), args[5]));
             }
         } catch (Exception ex) {
             throw new CustomException("Reading input file is failed :: " + ex);
         }
     }
+
     public void addClientData(String[] args) throws CustomException {
         try {
-            if (args.length != 5) throw new InvalidFormatException("Invalid number of arguments");
+            if (args.length != 6) throw new InvalidFormatException("Invalid number of arguments");
             else {
-                clientDataList.add(new ClientData(format.parse(args[1]),args[2],Integer.parseInt(args[3]),args[4]));
+                clientDataList.add(new ClientData(format.parse(args[2]), args[3], Integer.parseInt(args[4]), args[5]));
             }
         } catch (Exception ex) {
             throw new CustomException("Reading input file is failed :: " + ex);
@@ -60,14 +61,25 @@ public class Client {
                 ", clientDataList=" + clientDataList +
                 '}';
     }
-    public String getStatisticsFrom(Date startDate) {
-        String res = name + ":\n";
-        int sum=0;
-        List<ClientData> founded = clientDataList.stream().filter(data -> data.getDateOfContractConclusion().compareTo(startDate) >= 0).collect(Collectors.toList());
-        for(ClientData d : founded){
-            sum +=d.getSum();
-            res = res + d.toString() + "\n";
+
+    public String getStatisticsFrom(Date startDate, Date endDate) {
+        StringBuilder res = new StringBuilder(name + ": ");
+        double sum = 0;
+        List<ClientData> founded = clientDataList.stream().filter(data -> data.getDateOfContractConclusion().compareTo(startDate) >= 0
+                && data.getDateOfContractConclusion().compareTo(endDate) <= 0).collect(Collectors.toList());
+        for (ClientData d : founded) {
+            sum += Currency.convert(d.getCurrency(), Currency.USD, d.getAmount());
+            res.append(d.getTypeOfInsurance()).append(", ");
         }
-        return res;
+        res.append("\nSummary(in USD) = ").append(sum);
+        return res.toString();
+    }
+
+    public double sumBillsInCur(Currency cur) {
+        double sum = 0;
+        for (ClientData d : clientDataList) {
+            if (cur == d.getCurrency()) sum += d.getAmount();
+        }
+        return sum;
     }
 }

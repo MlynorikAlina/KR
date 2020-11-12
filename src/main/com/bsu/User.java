@@ -25,6 +25,7 @@ public class User {
             throw new CustomException("Reading input file is failed :: " + ex);
         }
     }
+
     public User(String[] args, String role) throws CustomException {
         try {
             if (args.length != 4) throw new InvalidFormatException("Invalid number of arguments");
@@ -59,13 +60,9 @@ public class User {
 
     @Override
     public String toString() {
-        return  '\n' + name + ' ' + login + ' ' +
+        return '\n' + name + ' ' + login + ' ' +
                 email + ' ' + password + ' ' +
-                role ;
-    }
-
-    public String getLogin() {
-        return login;
+                role;
     }
 
     public String getPassword() {
